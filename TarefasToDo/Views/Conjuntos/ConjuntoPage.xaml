@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TarefasToDo.Views.Conjuntos.ConjuntoPage"
+             Title="Início">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                <Label
+                    x:Name="WelcomeLabel" 
+                    FontSize="24"
+                    TextColor="DarkSlateBlue"
+                    VerticalOptions="Center"
+                    Grid.Column="0"/>
+
+                <Button 
+                    Text="Sair"
+                    Clicked="Sair_Clicked"
+                    Background="DarkGray"
+                    TextColor="White"
+                    Grid.Column="1"/>
+            </Grid>
+            <Label 
+                Text="___________________________________________________"
+                TextColor="DarkGray"
+                HorizontalOptions="Center"/>
+
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                <Label 
+                    Text="Meus grupos"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    Grid.Column="0"
+                    VerticalOptions="Center"/>
+                <Button 
+                    Text="Novo"
+                    BackgroundColor="DarkSlateBlue"
+                    TextColor="White"
+                    Padding="8,4"
+                    FontSize="13"
+                    CornerRadius="5"
+                    Clicked="CriarConjunto_Clicked"
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    Margin="10,0,0,0"/>
+            </Grid>
+            
+            <Label 
+                x:Name="SemConjuntoLabel"
+                Text="Nenhum item encontrado"
+                TextColor="Gray"
+                FontSize="12"
+                IsVisible="False"
+                HorizontalOptions="Center"
+                Margin="0,0,0,10"/>
+            <CollectionView 
+                x:Name="ConjuntoCollectionView"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Stroke="Gray"
+                            StrokeThickness="1"
+                            Padding="10" 
+                            Margin="5"
+                            Background="#f7f7f7"
+                            StrokeShape="RoundRectangle 10">
+                            
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                        Command="{Binding BindingContext.ConjuntoTappedCommand, Source={x:Reference ConjuntoCollectionView}}"
+                                        CommandParameter="{Binding .}"/>
+                            </Border.GestureRecognizers>
+                            
+
+                            <VerticalStackLayout Spacing="5">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label 
+                                        Text="{Binding Nome}" 
+                                        FontSize="18" 
+                                        FontAttributes="Bold"
+                                        VerticalOptions="Center"
+                                        Grid.Column="0" />
+
+                                    <Button
+                                        Text="⋮"
+                                        FontSize="18"
+                                        Padding="0"
+                                        Margin="0"
+                                        WidthRequest="30"
+                                        HeightRequest="30"
+                                        BackgroundColor="Transparent"
+                                        TextColor="Black"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="End"
+                                        Clicked="MostraOpcoes_Clicked"/>
+                                </Grid>
+                                <Label Text="{Binding Descricao}" FontSize="14" TextColor="Gray" />
+                                <Label Text="{Binding Dataformatada}" FontSize="14" TextColor="Gray" HorizontalOptions="Start" VerticalOptions="End" />
+
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

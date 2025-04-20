@@ -1,0 +1,127 @@
+﻿using System.Collections.ObjectModel;
+using TarefasToDo.Models.Conjutos;
+using TarefasToDo.Models.Usuarios;
+using TarefasToDo.Service;
+
+namespace TarefasToDo.Views.Conjuntos;
+
+public partial class ConjuntoPage : ContentPage
+{
+    private readonly ServiceAPI _api = new();
+    public ObservableCollection<ConjuntoLista> Conjuntos { get; set; } = new();
+
+    public ConjuntoPage()
+    {
+        InitializeComponent();
+        BindingContext = this;
+
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        var _usuario = AppState.UsuarioAtual;
+
+        if (_usuario != null)
+        {
+            Console.WriteLine($"✅ Usuario atual que ta logado: {_usuario.Id}");
+            WelcomeLabel.Text = $"Bem-vindo, {_usuario.Nome}!";
+            CarregaConjuntos(_usuario.Id);
+        }
+        else
+        {
+            Console.WriteLine("⚠️ Usuário não logado, voltando para login.");
+            DisplayAlert("Alerta", "Usuário não identificado, realize o login novamente!", "Ir para login");
+            Shell.Current.GoToAsync("///LoginPage");
+        }
+    }
+
+    private async void CarregaConjuntos(int usuarioId)
+    {
+        try
+        {
+            var conjuntos = await _api.ListaConjuntosUsuario(usuarioId);
+            Conjuntos.Clear();
+
+            if (conjuntos.Count == 0)
+            {
+                SemConjuntoLabel.IsVisible = true;
+            }
+            else
+            {
+                SemConjuntoLabel.IsVisible = false;
+                foreach (var conjunto in conjuntos)
+                {
+                    Conjuntos.Add(conjunto);
+                }
+                ConjuntoCollectionView.ItemsSource = Conjuntos;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Erro ao carregar conjuntos: {ex.Message}");
+            await DisplayAlert("Erro", "Falha ao carregar conjuntos", "Ok");
+        }
+    }
+    private async void Sair_Clicked(object sender, EventArgs e)
+    {
+        bool confirmar = await DisplayAlert("Aviso", "Deseja realmente sair?", "Sim", "Cancelar");
+        if (confirmar)
+        {
+            AppState.UsuarioAtual = null;
+            Console.WriteLine("🚪 Usuário deslogado");
+            await Shell.Current.GoToAsync("///LoginPage", true);
+        }
+    }
+
+    private async void MostraOpcoes_Clicked(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var conjuntoSelecionado = button?.BindingContext as ConjuntoLista;
+
+        if (conjuntoSelecionado == null)
+        {
+            await DisplayAlert("Erro", "Conjunto não encontrado!", "Ok");
+            return;
+        }
+
+        string opcao = await DisplayActionSheet("Opções", "Cancelar", null, "Editar", "Excluir");
+
+        switch (opcao)
+        {
+            case "Editar":
+                break;
+            case "Excluir":
+                bool confirmar = await DisplayAlert("Confirmar", $"Tem certeza que deseja excluir o conjunto \"{conjuntoSelecionado.Nome}\"?", "Sim", "Cancelar");
+
+                if (confirmar)
+                {
+                    try
+                    {
+                        bool sucesso = await _api.DeletarConjunto(conjuntoSelecionado.Id);
+
+                        if (sucesso)
+                        {
+                            Conjuntos.Remove(conjuntoSelecionado);
+                            await DisplayAlert("Sucesso", "Conjunto excluído com sucesso!", "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Erro", "Falha ao excluir o conjunto.", "OK");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ Erro ao excluir conjunto: {ex.Message}");
+                        await DisplayAlert("Erro", ex.Message, "OK");
+                    }
+                }
+                break;
+        }
+    }
+
+    private async void CriarConjunto_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("///CadastroConjuntoPage");
+    }
+}

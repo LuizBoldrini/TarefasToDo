@@ -1,0 +1,26 @@
+<Shell  
+   x:Class="TarefasToDo.AppShell"  
+   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+   xmlns:usuarios="clr-namespace:TarefasToDo.Views.Usuarios"  
+   xmlns:conjunto="clr-namespace:TarefasToDo.Views.Conjuntos"
+   Shell.FlyoutBehavior="Flyout"  
+   Title="TarefasToDo">  
+
+   <ShellContent  
+       Title="login"  
+       Route="LoginPage"  
+       ContentTemplate="{DataTemplate usuarios:LoginPage}" />
+    <ShellContent  
+       Title="Cadastro"  
+       Route="CadastroPage"  
+       ContentTemplate="{DataTemplate usuarios:CadastroPage}" />
+    <ShellContent 
+        Title="Conjunto"
+        Route="ConjuntoPage"
+        ContentTemplate="{DataTemplate conjunto:ConjuntoPage}"/>
+    <ShellContent 
+        Title="Cadastro Conjunto"
+        Route="CadastroConjuntoPage"
+        ContentTemplate="{DataTemplate conjunto:CadastroConjuntoPage}"/>
+</Shell>
