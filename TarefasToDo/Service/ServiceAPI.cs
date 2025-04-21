@@ -13,7 +13,7 @@ namespace TarefasToDo.Service
     public class ServiceAPI
     {
         private readonly HttpClient _http;
-        
+
         public ServiceAPI()
         {
             _http = new HttpClient
@@ -27,7 +27,7 @@ namespace TarefasToDo.Service
             try
             {
                 var response = await _http.PostAsJsonAsync($"{GlobalSettings.Instance.Usuario}/cadastrar", user);
-                
+
                 if (!response.IsSuccessStatusCode)
                 {
                     var erro = await response.Content.ReadAsByteArrayAsync();
@@ -111,11 +111,11 @@ namespace TarefasToDo.Service
             {
                 var response = await _http.GetAsync($"{GlobalSettings.Instance.Conjunto}/{usuarioLogadoId}");
 
-                if(response.StatusCode == HttpStatusCode.NotFound)
+                if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     return new List<ConjuntoLista>();
                 }
-                if(!response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
                     var erro = await response.Content.ReadAsByteArrayAsync();
                     var utf8String = Encoding.UTF8.GetString(erro);
@@ -130,7 +130,7 @@ namespace TarefasToDo.Service
 
                 if (conjunto == null)
                 {
-                   throw new InvalidOperationException("A resposta da API retornou um objeto nulo.");
+                    throw new InvalidOperationException("A resposta da API retornou um objeto nulo.");
                 }
 
                 return conjunto;
@@ -178,19 +178,66 @@ namespace TarefasToDo.Service
 
                 var conjunto = await response.Content.ReadFromJsonAsync<ConjuntoCadastro>();
 
-                if(conjunto == null)
+                if (conjunto == null)
                 {
                     throw new InvalidOperationException("A resposta da API retornou um objeto nulo.");
                 }
 
                 return conjunto;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine($"❗ Erro em CadastraUsuario: {ex.Message}");
                 throw;
             }
         }
+
+        public async Task<ConjuntoCadastro> EditarConjunto(int conjuntoId, ConjuntoCadastro conjuntoEditado)
+        {
+            try
+            {
+                var response = await _http.PutAsJsonAsync($"{GlobalSettings.Instance.Conjunto}/editar/{conjuntoId}", conjuntoEditado);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var erro = await response.Content.ReadAsByteArrayAsync();
+                    var utf8String = Encoding.UTF8.GetString(erro);
+
+                    string mensagemErro = "Erro ao excluir conjunto.";
+
+                    try
+                    {
+                        var json = JsonDocument.Parse(utf8String);
+                        if (json.RootElement.TryGetProperty("mensagem", out var mensagem))
+                        {
+                            mensagemErro = mensagem.GetString() ?? mensagemErro;
+                        }
+                        else if (json.RootElement.TryGetProperty("error", out var error))
+                        {
+                            mensagemErro = error.GetString() ?? mensagemErro;
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Erro desconhecido!");
+                    }
+
+                    throw new Exception(mensagemErro);
+                }
+
+                var conjuntoAtualizado = await response.Content.ReadFromJsonAsync<ConjuntoCadastro>();
+                if (conjuntoAtualizado == null)
+                {
+                    throw new InvalidOperationException("A resposta da API retornou um objeto nulo");
+                }
+                return conjuntoAtualizado;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro em editar conjunto: {ex.Message}");
+                throw;
+            }
+        }
+
 
         public async Task<bool> DeletarConjunto(int conjuntoId)
         {

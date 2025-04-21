@@ -14,6 +14,7 @@ public partial class ConjuntoPage : ContentPage
     {
         InitializeComponent();
         BindingContext = this;
+        
 
     }
     protected override void OnAppearing()
@@ -90,6 +91,11 @@ public partial class ConjuntoPage : ContentPage
         switch (opcao)
         {
             case "Editar":
+                if(conjuntoSelecionado != null)
+                {
+                    AppState.ConjuntoSelecionado = conjuntoSelecionado;
+                    await Shell.Current.GoToAsync("///EditarConjuntoPage");
+                }
                 break;
             case "Excluir":
                 bool confirmar = await DisplayAlert("Confirmar", $"Tem certeza que deseja excluir o conjunto \"{conjuntoSelecionado.Nome}\"?", "Sim", "Cancelar");
@@ -123,5 +129,14 @@ public partial class ConjuntoPage : ContentPage
     private async void CriarConjunto_Clicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync("///CadastroConjuntoPage");
+    }
+
+    private async void ConjuntoSelecionado(ConjuntoLista conjunto)
+    {
+        if(conjunto != null)
+        {
+            Console.WriteLine($"Conjunto clicado: {conjunto.Id}");
+            await Shell.Current.GoToAsync("///TarefasPage");
+        }
     }
 }

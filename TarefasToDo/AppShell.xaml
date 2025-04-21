@@ -23,4 +23,8 @@
         Title="Cadastro Conjunto"
         Route="CadastroConjuntoPage"
         ContentTemplate="{DataTemplate conjunto:CadastroConjuntoPage}"/>
+    <ShellContent
+        Title="Editar Conjunto"
+        Route="EditarConjuntoPage"
+        ContentTemplate="{DataTemplate conjunto:EditarConjuntoPage}"/>
 </Shell>
