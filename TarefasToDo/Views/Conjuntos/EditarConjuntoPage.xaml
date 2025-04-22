@@ -13,7 +13,7 @@
             Placeholder="Nome do conjunto"/>
         <Entry 
             x:Name="DescricaoEntry"
-            Placeholder="Descrição"
+            Placeholder="Descrição da tarefa"
             HeightRequest="100"/>
 
         <Button 

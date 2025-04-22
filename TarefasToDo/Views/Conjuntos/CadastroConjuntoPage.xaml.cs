@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using TarefasToDo.Models.Conjutos;
 using TarefasToDo.Models.Usuarios;
 using TarefasToDo.Service;

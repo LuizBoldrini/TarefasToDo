@@ -67,9 +67,7 @@
                             StrokeShape="RoundRectangle 10">
                             
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                        Command="{Binding BindingContext.ConjuntoTappedCommand, Source={x:Reference ConjuntoCollectionView}}"
-                                        CommandParameter="{Binding .}"/>
+                                <TapGestureRecognizer Tapped="Conjunto_Tapped"/>
                             </Border.GestureRecognizers>
                             
 

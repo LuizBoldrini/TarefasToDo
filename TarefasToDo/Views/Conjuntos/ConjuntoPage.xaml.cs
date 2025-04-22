@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 using TarefasToDo.Models.Conjutos;
 using TarefasToDo.Models.Usuarios;
 using TarefasToDo.Service;
@@ -25,13 +26,11 @@ public partial class ConjuntoPage : ContentPage
 
         if (_usuario != null)
         {
-            Console.WriteLine($"✅ Usuario atual que ta logado: {_usuario.Id}");
             WelcomeLabel.Text = $"Bem-vindo, {_usuario.Nome}!";
             CarregaConjuntos(_usuario.Id);
         }
         else
         {
-            Console.WriteLine("⚠️ Usuário não logado, voltando para login.");
             DisplayAlert("Alerta", "Usuário não identificado, realize o login novamente!", "Ir para login");
             Shell.Current.GoToAsync("///LoginPage");
         }
@@ -70,7 +69,6 @@ public partial class ConjuntoPage : ContentPage
         if (confirmar)
         {
             AppState.UsuarioAtual = null;
-            Console.WriteLine("🚪 Usuário deslogado");
             await Shell.Current.GoToAsync("///LoginPage", true);
         }
     }
@@ -131,12 +129,21 @@ public partial class ConjuntoPage : ContentPage
         await Shell.Current.GoToAsync("///CadastroConjuntoPage");
     }
 
-    private async void ConjuntoSelecionado(ConjuntoLista conjunto)
+    private async void Conjunto_Tapped(object sender, EventArgs e)
     {
-        if(conjunto != null)
+        if(sender is Border border && border.BindingContext is ConjuntoLista conjunto)
         {
-            Console.WriteLine($"Conjunto clicado: {conjunto.Id}");
-            await Shell.Current.GoToAsync("///TarefasPage");
+            try
+            {
+                await border.ScaleTo(0.95, 100, Easing.CubicIn);
+                await border.ScaleTo(1, 100, Easing.CubicOut);
+                AppState.ConjuntoSelecionado = conjunto;
+                await Shell.Current.GoToAsync("///TarefasPage");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erro", $"Erro ao abrir conjunto: {ex.Message}", "OK");
+            }
         }
     }
 }
