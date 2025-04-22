@@ -11,6 +11,7 @@ namespace TarefasToDo
         public static string BaseUrl = "http://10.0.2.2:3000";
         public string Usuario { get; set; }
         public string Conjunto { get; set; }
+        public string Tarefa { get; set; }
 
         public static GlobalSettings Instance { get; } = new GlobalSettings();
 
@@ -18,6 +19,7 @@ namespace TarefasToDo
         {
             Usuario = $"{BaseUrl}/usuarios";
             Conjunto = $"{BaseUrl}/conjuntos";
+            Tarefa = $"{BaseUrl}/conjunto/tarefas";
         }
     }
 }
