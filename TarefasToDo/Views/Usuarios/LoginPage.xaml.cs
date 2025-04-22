@@ -1,6 +1,7 @@
 ﻿using TarefasToDo.Service;
 using TarefasToDo.Models.Usuarios;
 using TarefasToDo.Views.Conjuntos;
+using Microsoft.Maui.Controls;
 namespace TarefasToDo.Views.Usuarios;
 
 
@@ -33,17 +34,23 @@ public partial class LoginPage : ContentPage
         }
         try
         {
-            var usuario = await _api.LoginUsuario(email, senha);
-            if (usuario != null)
+            if(sender is Button botao)
             {
-                AppState.UsuarioAtual = null;
-                AppState.UsuarioAtual = usuario;
-                Console.WriteLine($"✅ Login efetuado com: {usuario.Email}");
-                await Shell.Current.GoToAsync("///ConjuntoPage");
-            }
-            else
-            {
-                await DisplayAlert("Aviso", "Usuário ou senha inválidos", "OK");
+                await botao.ScaleTo(0.95, 100, Easing.CubicIn);
+                await botao.ScaleTo(1, 100, Easing.CubicOut);
+                
+                var usuario = await _api.LoginUsuario(email, senha);
+                if (usuario != null)
+                {
+                    AppState.UsuarioAtual = null;
+                    AppState.UsuarioAtual = usuario;
+
+                    await Shell.Current.GoToAsync("///ConjuntoPage");
+                }
+                else
+                {
+                    await DisplayAlert("Aviso", "Usuário ou senha inválidos", "OK");
+                }
             }
         }
         catch (Exception ex)

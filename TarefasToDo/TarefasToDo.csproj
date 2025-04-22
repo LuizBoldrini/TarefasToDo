@@ -75,6 +75,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Views\Tarefas\CadastroTarefa.xaml.cs" />
+	  <Compile Remove="Views\Tarefas\NewPage1.xaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\Tarefas\CadastroTarefa.xaml" />
+	  <MauiXaml Remove="Views\Tarefas\NewPage1.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	</ItemGroup>
 
@@ -91,6 +101,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Conjuntos\EditarConjuntoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Tarefas\CadastroTarefaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Tarefas\EditarTarefaPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Tarefas\TarefasPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Usuarios\CadastroPage.xaml">
