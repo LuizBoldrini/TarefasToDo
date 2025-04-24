@@ -1,7 +1,5 @@
 ﻿using TarefasToDo.Service;
 using TarefasToDo.Models.Usuarios;
-using TarefasToDo.Views.Conjuntos;
-using Microsoft.Maui.Controls;
 namespace TarefasToDo.Views.Usuarios;
 
 
