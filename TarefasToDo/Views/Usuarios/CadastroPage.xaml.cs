@@ -49,4 +49,14 @@ public partial class CadastroPage : ContentPage
 			await DisplayAlert("Aviso", ex.Message, "Ok");
 		}
     }
+
+	private async void VoltarButton_Clicked(object sender, EventArgs e)
+	{
+		bool confirmar = await DisplayAlert("Aviso", "Deseja cancelar o cadastro?", "Sim", "Não");
+
+		if (confirmar)
+		{
+			await Shell.Current.GoToAsync("///LoginPage", true);
+		}
+	}
 }

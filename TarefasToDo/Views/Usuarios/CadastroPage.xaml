@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
              x:Class="TarefasToDo.Views.Usuarios.CadastroPage"
              Title="Cadastro de usuário">
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label 
             Text="Cadastro de usuário"
-            FontSize="24"
-            HorizontalOptions="Center"/>
+            FontSize="20"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            Margin="0,10,0,20"
+            TextColor="#1E1E1E"/>
 
-        <VerticalStackLayout>
-            <Label
-                Text="Nome"
-                FontSize="16"/>
-            <Entry 
-                x:Name="NomeEntry" 
-                Placeholder="Informe seu nome"/>
-        </VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label
-                Text="Email"
-                FontSize="16"/>
-            <Entry 
-                x:Name="EmailEntry" 
-                Placeholder="Informe seu Email"
-                Keyboard="Email"/>
-        </VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label
-                Text="Telefone"
-                FontSize="16"/>
-            <Entry
-                x:Name="TelefoneEntry"
-                Placeholder="Informe seu telefone"
-                Keyboard="Telephone"/>
-        </VerticalStackLayout>
-        <VerticalStackLayout>
-            <Label
-                Text="Senha"
-                FontSize="16"/>
-            <Entry 
-                x:Name="SenhaEntry" 
-                Placeholder="Informe sua senha"
-                IsPassword="True"/>
-        </VerticalStackLayout>
+        <controls:EntryEstilo
+            x:Name="NomeEntry"
+            PlaceholderText="Digite seu nome"
+            IconSource="user.png"
+            Keyboard="Default"
+            Text="{Binding Nome, Source={x:Reference This}}"/>
+        <controls:EntryEstilo
+            x:Name="EmailEntry"
+            PlaceholderText="Digite seu email"
+            IconSource="email.png"
+            Keyboard="Email"
+            Text="{Binding Email, Source={x:Reference This}}"/>
+        <controls:EntryEstilo
+            x:Name="TelefoneEntry"
+            PlaceholderText="Digite seu telefone"
+            IconSource="tel.png"
+            Keyboard="Telephone"
+            Text="{Binding Telefone, Source={x:Reference This}}"/>
+        <controls:EntryEstilo 
+            x:Name="SenhaEntry"
+            PlaceholderText="Digite sua senha"
+            IconSource="senha.png"
+            Keyboard="Password"
+            Text="{Binding Senha, Source={x:Reference This}}"/>
 
-        <Button 
-            Text="Cadastrar"
-            Clicked="CadastrarButton_Clicked"/>
+        <VerticalStackLayout Spacing="2">
+            <Button 
+                Text="Cadastrar"
+                Clicked="CadastrarButton_Clicked"
+                WidthRequest="360"
+                Background="#21618C"/>
+            <Button 
+                Text="Voltar"
+                Clicked="VoltarButton_Clicked"
+                WidthRequest="360"
+                BackgroundColor="#AAB2BD"/>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
