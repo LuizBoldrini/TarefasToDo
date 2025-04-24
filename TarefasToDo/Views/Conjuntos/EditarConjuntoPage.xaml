@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
              x:Class="TarefasToDo.Views.Conjuntos.EditarConjuntoPage"
              Title="EditarConjuntoPage">
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label 
-            Text="Editar"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Entry 
+            Text="Editar Grupo"
+            FontSize="20"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            Margin="0,10,0,20"
+            TextColor="#1E1E1E"/>
+
+        <controls:EntryEstilo 
             x:Name="NomeEntry"
-            Placeholder="Nome do conjunto"/>
-        <Entry 
+            PlaceholderText="Nome do grupo"
+            IconSource="grupo.png"
+            Keyboard="Default"
+            Text="{Binding Nome, Source={x:Reference This}}"/>
+        <controls:EntryEstilo
             x:Name="DescricaoEntry"
-            Placeholder="Descrição da tarefa"
+            PlaceholderText="Descrição do grupo"
+            IconSource="descricao.png"
+            Keyboard="Default"
+            Text="{Binding Descricao, Source={x:Reference This}}"
             HeightRequest="100"/>
 
-        <Button 
-            Text="Salvar Alterações"
-            Clicked="Salvar_Clicked"/>
+        <VerticalStackLayout Spacing="2">
+            <Button 
+                Text="Cadastrar"
+                Clicked="Salvar_Clicked"
+                BackgroundColor="#21618C"
+                WidthRequest="360"/>
+            <Button 
+                Text="Voltar"
+                Clicked="VoltarButton_Clicked"
+                WidthRequest="360"
+                BackgroundColor="#AAB2BD"/>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
