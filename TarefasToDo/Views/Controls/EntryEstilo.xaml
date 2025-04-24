@@ -1,0 +1,28 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TarefasToDo.Views.Controls.EntryEstilo"
+             x:Name="This">
+    <Border Stroke="#ccc" StrokeThickness="1" BackgroundColor="White" StrokeShape="RoundRectangle 8">
+        <Grid ColumnDefinitions="Auto, *" VerticalOptions="Fill" Padding="10">
+            <Image
+                Source="{Binding IconSource, Source={x:Reference This}}"
+                WidthRequest="20"
+                HeightRequest="20"
+                VerticalOptions="Fill"
+                Aspect="AspectFit"
+                Grid.Column="0"/>
+            <Entry
+                x:Name="EntryControl"
+                Text="{Binding Text, Mode=TwoWay, Source={x:Reference This}}"
+                Placeholder="{Binding PlaceholderText, Source={x:Reference This}}"
+                Keyboard="{Binding Keyboard, Source={x:Reference This}}"
+                BackgroundColor="Transparent"
+                TextColor="Black"
+                PlaceholderColor="#aaa"
+                FontSize="14"
+                Margin="5,0,10,0"
+                VerticalOptions="Center"
+                Grid.Column="1"/>
+        </Grid>
+    </Border>
+</ContentView>
