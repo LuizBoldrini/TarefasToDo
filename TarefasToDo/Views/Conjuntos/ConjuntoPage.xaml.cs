@@ -1,5 +1,4 @@
-Ôªøusing System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
+using System.Collections.ObjectModel;
 using TarefasToDo.Models.Conjutos;
 using TarefasToDo.Models.Usuarios;
 using TarefasToDo.Service;
@@ -15,12 +14,20 @@ public partial class ConjuntoPage : ContentPage
     {
         InitializeComponent();
         BindingContext = this;
-        
+
 
     }
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        var label = new Label
+        {
+            Text = "",
+            Style = Application.Current?.Resources["ShellTitleHidden"] as Style ?? new Style(typeof(Label))
+        };
+
+        Shell.SetTitleView(this, label);
 
         var _usuario = AppState.UsuarioAtual;
 
@@ -31,7 +38,7 @@ public partial class ConjuntoPage : ContentPage
         }
         else
         {
-            DisplayAlert("Alerta", "Usu√°rio n√£o identificado, realize o login novamente!", "Ir para login");
+            DisplayAlert("Alerta", "Usu·rio n„o identificado, realize o login novamente!", "Ir para login");
             Shell.Current.GoToAsync("///LoginPage");
         }
     }
@@ -59,17 +66,7 @@ public partial class ConjuntoPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"‚ùå Erro ao carregar conjuntos: {ex.Message}");
             await DisplayAlert("Erro", "Falha ao carregar conjuntos", "Ok");
-        }
-    }
-    private async void Sair_Clicked(object sender, EventArgs e)
-    {
-        bool confirmar = await DisplayAlert("Aviso", "Deseja realmente sair?", "Sim", "Cancelar");
-        if (confirmar)
-        {
-            AppState.UsuarioAtual = null;
-            await Shell.Current.GoToAsync("///LoginPage", true);
         }
     }
 
@@ -80,16 +77,16 @@ public partial class ConjuntoPage : ContentPage
 
         if (conjuntoSelecionado == null)
         {
-            await DisplayAlert("Erro", "Conjunto n√£o encontrado!", "Ok");
+            await DisplayAlert("Erro", "Conjunto n„o encontrado!", "Ok");
             return;
         }
 
-        string opcao = await DisplayActionSheet("Op√ß√µes", "Cancelar", null, "Editar", "Excluir");
+        string opcao = await DisplayActionSheet("OpÁıes", "Cancelar", null, "Editar", "Excluir");
 
         switch (opcao)
         {
             case "Editar":
-                if(conjuntoSelecionado != null)
+                if (conjuntoSelecionado != null)
                 {
                     AppState.ConjuntoSelecionado = conjuntoSelecionado;
                     await Shell.Current.GoToAsync("///EditarConjuntoPage");
@@ -107,7 +104,7 @@ public partial class ConjuntoPage : ContentPage
                         if (sucesso)
                         {
                             Conjuntos.Remove(conjuntoSelecionado);
-                            await DisplayAlert("Sucesso", "Conjunto exclu√≠do com sucesso!", "OK");
+                            await DisplayAlert("Sucesso", "Conjunto excluÌdo com sucesso!", "OK");
                         }
                         else
                         {
@@ -116,7 +113,6 @@ public partial class ConjuntoPage : ContentPage
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"‚ùå Erro ao excluir conjunto: {ex.Message}");
                         await DisplayAlert("Erro", ex.Message, "OK");
                     }
                 }
@@ -131,7 +127,7 @@ public partial class ConjuntoPage : ContentPage
 
     private async void Conjunto_Tapped(object sender, EventArgs e)
     {
-        if(sender is Border border && border.BindingContext is ConjuntoLista conjunto)
+        if (sender is Border border && border.BindingContext is ConjuntoLista conjunto)
         {
             try
             {
