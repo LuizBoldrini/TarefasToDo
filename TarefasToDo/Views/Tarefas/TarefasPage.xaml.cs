@@ -14,17 +14,27 @@ public partial class TarefasPage : ContentPage
 	{
 		InitializeComponent();
         BindingContext = this;
+        
+        var label = new Label
+        {
+            Text = "",
+            Style = Application.Current?.Resources["ShellTitleHidden"] as Style ?? new Style(typeof(Label))
+        };
+    
+        Shell.SetTitleView(this, label);
     }
+
+
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
+
         var _usuario = AppState.UsuarioAtual;
         var _conjunto = AppState.ConjuntoSelecionado;
-        if (_conjunto != null || _usuario != null)
+        if (_conjunto != null && _usuario != null)
         {
-            WelcomeLabel.Text = $"Tarefas do grupo,\n {_conjunto.Nome}";
+            ConjuntoSpan.Text = _conjunto.Nome;
             CarregaTarefas(_conjunto.Id);
         }
         else
@@ -48,7 +58,7 @@ public partial class TarefasPage : ContentPage
             else
             {
                 SemTarefaLabel.IsVisible = false;
-                foreach (var tarefa in tarefas)
+                foreach (var tarefa in tarefas.OrderBy(t => ObterPrioridade(t.Status)).ThenBy(t => t.Nome))
                 {
                     Tarefas.Add(tarefa);
                 }
@@ -64,18 +74,13 @@ public partial class TarefasPage : ContentPage
 
     private async void Voltar_Clicked(object sender, EventArgs e)
     {
-        bool confirmar = await DisplayAlert("Aviso", "Deseja realmente voltar?", "Sim", "Cancelar");
-        if (confirmar)
-        {
-            AppState.ConjuntoSelecionado = null;
-            await Shell.Current.GoToAsync("///ConjuntoPage", true);
-
-        }
+        AppState.ConjuntoSelecionado = null;
+        await Shell.Current.GoToAsync("///ConjuntoPage", true);
     }
 
     private async void CriarTarefa_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("///CadastroTarefaPage");
+        await Shell.Current.GoToAsync("///CadastroTarefaPage", true);
     }
 
     private async void MostraOpcoes_Clicked(object sender, EventArgs e)
@@ -122,6 +127,8 @@ public partial class TarefasPage : ContentPage
         {
             await border.ScaleTo(0.95, 100, Easing.CubicIn);
             await border.ScaleTo(1, 100, Easing.CubicOut);
+            await border.FadeTo(0.5, 100);
+            await border.FadeTo(1, 100);
 
             string novoStatus = await DisplayActionSheet(
                 "Alterar status da tarefa",
@@ -142,8 +149,16 @@ public partial class TarefasPage : ContentPage
                     tarefaExistente.Status = tarefaAtualizada.Status;
                 }
 
-                TarefaCollectionView.ItemsSource = null;
-                TarefaCollectionView.ItemsSource = Tarefas;
+                var tarefasOrdenadas = Tarefas
+                    .OrderBy(t => ObterPrioridade(t.Status))
+                    .ThenBy(t => t.Nome)
+                    .ToList();
+
+                Tarefas.Clear();
+                foreach (var t in tarefasOrdenadas)
+                {
+                    Tarefas.Add(t);
+                }
 
             }
             catch (Exception ex)
@@ -151,5 +166,16 @@ public partial class TarefasPage : ContentPage
                 await DisplayAlert("Erro", $"{ex.Message}", "OK");
             }
         }
+    }
+
+    private int ObterPrioridade(string status)
+    {
+        return status switch
+        {
+            "Aberta" => 0,
+            "Em andamento" => 1,
+            "Completa" => 2,
+            _ => 3
+        };
     }
 }

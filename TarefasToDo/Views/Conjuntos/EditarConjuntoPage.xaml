@@ -29,7 +29,7 @@
 
         <VerticalStackLayout Spacing="2">
             <Button 
-                Text="Cadastrar"
+                Text="Salvar Alterações"
                 Clicked="Salvar_Clicked"
                 BackgroundColor="#21618C"
                 WidthRequest="360"/>
