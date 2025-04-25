@@ -64,7 +64,7 @@ public partial class ConjuntoPage : ContentPage
                 ConjuntoCollectionView.ItemsSource = Conjuntos;
             }
         }
-        catch
+        catch (Exception ex)
         {
             await DisplayAlert("Erro", "Falha ao carregar conjuntos", "Ok");
         }
@@ -134,7 +134,7 @@ public partial class ConjuntoPage : ContentPage
                 await border.ScaleTo(0.95, 100, Easing.CubicIn);
                 await border.ScaleTo(1, 100, Easing.CubicOut);
                 AppState.ConjuntoSelecionado = conjunto;
-                await Shell.Current.GoToAsync("///TarefasPage", true);
+                await Shell.Current.GoToAsync("///TarefasPage");
             }
             catch (Exception ex)
             {

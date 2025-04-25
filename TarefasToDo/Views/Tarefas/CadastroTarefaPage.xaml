@@ -1,45 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
              x:Class="TarefasToDo.Views.Tarefas.CadastroTarefaPage"
              Title="Cadastro de Tarefa">
     <VerticalStackLayout Padding="20" Spacing="15">
-        <Label
-            Text="Cadastro de Tarefa"
-            FontSize="20"
-            FontAttributes="Bold"
-            HorizontalOptions="Center"
-            Margin="0,10,0,20"
-            TextColor="#1E1E1E"/>
-
-        <controls:EntryEstilo 
-            x:Name="NomeEntry"
-            PlaceholderText="Digite o nome da tarefa"
-            IconSource="tarefa.png"
-            Keyboard="Default"
-            Text="{Binding Nome, Source={x:Reference This}}"/>
-
-
-        <controls:EntryEstilo 
-            x:Name="DescricaoEntry"
-            PlaceholderText="Digite a descrição da tarefa"
-            IconSource="descricao.png"
-            Keyboard="Default"
-            Text="{Binding Descricao, Source={x:Reference This}}"
-            HeightRequest="100"/>
-
-        <VerticalStackLayout Spacing="2">
-            <Button 
-                Text="Cadastrar"
-                Clicked="CadastrarButton_Clicked"
-                BackgroundColor="#21618C"
-                WidthRequest="360"/>
-            <Button 
-                Text="Voltar"
-                Clicked="VoltarButton_Clicked"
-                WidthRequest="360"
-                BackgroundColor="#AAB2BD"/>
+        <Label 
+            Text="Cadastro de tarefa"
+            FontSize="24"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        
+        <VerticalStackLayout>
+            <Label
+                Text="Nome"
+                FontSize="16"/>
+            <Editor 
+                x:Name="NomeEntry"
+                Placeholder="Digite o nome da tarefa"
+                HeightRequest="45"/>
         </VerticalStackLayout>
+        <VerticalStackLayout>
+            <Label 
+                Text="Descrição"
+                FontSize="16"/>
+            <Entry
+                x:Name="DescricaoEntry"
+                HeightRequest="100"
+                Placeholder="Informe a descricao da tarefa"/>
+        </VerticalStackLayout>
+        <Button 
+            Text="Cadastrar"
+            Clicked="CadastrarButton_Clicked"
+            HeightRequest="50"/>
     </VerticalStackLayout>
 </ContentPage>
