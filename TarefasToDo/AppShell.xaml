@@ -8,38 +8,58 @@
    Shell.FlyoutBehavior="Flyout"  
    Title="TarefasToDo">  
 
-   <ShellContent  
+   <ShellContent 
        Title="login"  
        Route="LoginPage"  
-       ContentTemplate="{DataTemplate usuarios:LoginPage}" />
+       ContentTemplate="{DataTemplate usuarios:LoginPage}"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False"
+       Shell.FlyoutItemIsVisible="False"/>
    <ShellContent  
        Title="Cadastro"  
        Route="CadastroPage"  
-       ContentTemplate="{DataTemplate usuarios:CadastroPage}" />
+       ContentTemplate="{DataTemplate usuarios:CadastroPage}"
+       Shell.NavBarIsVisible="False"
+       Shell.FlyoutItemIsVisible="False"/>
    
    <ShellContent 
-        Title="Conjunto"
+        Title="Inicio"
         Route="ConjuntoPage"
         ContentTemplate="{DataTemplate conjunto:ConjuntoPage}"/>
    <ShellContent 
-        Title="Cadastro Conjunto"
+        Title="Cadastrar Grupo"
         Route="CadastroConjuntoPage"
-        ContentTemplate="{DataTemplate conjunto:CadastroConjuntoPage}"/>
+        ContentTemplate="{DataTemplate conjunto:CadastroConjuntoPage}"
+        Shell.NavBarIsVisible="False"/>
    <ShellContent
         Title="Editar Conjunto"
         Route="EditarConjuntoPage"
-        ContentTemplate="{DataTemplate conjunto:EditarConjuntoPage}"/>
+        ContentTemplate="{DataTemplate conjunto:EditarConjuntoPage}"
+        Shell.FlyoutItemIsVisible="False"
+        Shell.NavBarIsVisible="False"/>
+
 
     <ShellContent
        Title="Tarefa"
        Route="TarefasPage"
-       ContentTemplate="{DataTemplate tarefa:TarefasPage}"/>
+       ContentTemplate="{DataTemplate tarefa:TarefasPage}"
+       Shell.FlyoutItemIsVisible="False"
+       Shell.NavBarIsVisible="false"/>
     <ShellContent 
         Title="Cadastro Tarefas"
         Route="CadastroTarefaPage"
-        ContentTemplate="{DataTemplate tarefa:CadastroTarefaPage}"/>
+        ContentTemplate="{DataTemplate tarefa:CadastroTarefaPage}"
+        Shell.FlyoutItemIsVisible="False"
+        Shell.NavBarIsVisible="False"/>
     <ShellContent
         Title="Editar Tarefas"
         Route="EditarTarefaPage"
-        ContentTemplate="{DataTemplate tarefa:EditarTarefaPage}"/>
+        ContentTemplate="{DataTemplate tarefa:EditarTarefaPage}"
+        Shell.FlyoutItemIsVisible="False"
+        Shell.NavBarIsVisible="False"/>
+
+    <MenuItem 
+        Text="Logout"
+        Clicked="Sair_Clicked"
+        />
 </Shell>

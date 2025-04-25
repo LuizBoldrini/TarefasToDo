@@ -7,28 +7,27 @@ namespace TarefasToDo.Views.Tarefas;
 public partial class EditarTarefaPage : ContentPage
 {
     private readonly ServiceAPI _api = new();
-    private TarefaLista _tarefaAtual;
+    private TarefaLista _tarefaAtual = null!;
 
     public EditarTarefaPage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        _tarefaAtual = AppState.TarefaSelecionada;
-        
-        if (_tarefaAtual != null)
+        if (AppState.TarefaSelecionada != null)
         {
+            _tarefaAtual = AppState.TarefaSelecionada;
             NomeEntry.Text = _tarefaAtual.Nome;
             DescricaoEntry.Text = _tarefaAtual.Descricao;
         }
         else
         {
             DisplayAlert("Erro", "Nenhum conjunto ou tarefa selecionada para edição.", "Ok");
-            Shell.Current.GoToAsync("///ConjuntoPage");
+            Shell.Current.GoToAsync("///TarefasPage");
         }
     }
 
@@ -48,11 +47,21 @@ public partial class EditarTarefaPage : ContentPage
         {
             await _api.EditarTarefa(_tarefaAtual.Id, tarefaEditada);
             await DisplayAlert("Sucesso", "Tarefa atualizada com sucesso!", "Ok");
-            await Shell.Current.GoToAsync("///TarefasPage");
+            await Shell.Current.GoToAsync("///TarefasPage", true);
         }
         catch (Exception ex)
         {
             await DisplayAlert("Erro", $"Erro ao atualizar tarefa: {ex.Message}", "Ok");
+        }
+    }
+
+    private async void VoltarButton_Clicked(object sender, EventArgs e)
+    {
+        bool confirmar = await DisplayAlert("Aviso", "Deseja cancelar o cadastro?", "Sim", "Não");
+
+        if (confirmar)
+        {
+            await Shell.Current.GoToAsync("///TarefasPage", true);
         }
     }
 }

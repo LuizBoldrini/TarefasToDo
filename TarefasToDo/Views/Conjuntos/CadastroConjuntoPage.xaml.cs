@@ -12,6 +12,12 @@ public partial class CadastroConjuntoPage : ContentPage
 		InitializeComponent();
 	}
 
+    protected override void OnAppearing()
+    {
+        NomeEntry.Text = string.Empty;
+        DescricaoEntry.Text = string.Empty;
+    }
+
     private async void CadastrarButton_Clicked(object sender, EventArgs e)
     {
         var nome = NomeEntry.Text;
@@ -46,7 +52,6 @@ public partial class CadastroConjuntoPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro no Cadastro de conjunto:{ex.Message}");
             await DisplayAlert("Aviso", ex.Message, "OK");
         }
     }

@@ -9,6 +9,10 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="ShellTitleHidden" TargetType="Label">
+                <Setter Property="TextColor" Value="Transparent"/>
+                <Setter Property="FontSize" Value="0"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

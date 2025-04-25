@@ -21,7 +21,6 @@ public partial class EditarConjuntoPage : ContentPage
         if (AppState.ConjuntoSelecionado != null)
         {
             _conjuntoAtual = AppState.ConjuntoSelecionado;
-
             NomeEntry.Text = _conjuntoAtual.Nome;
             DescricaoEntry.Text = _conjuntoAtual.Descricao;
         }
@@ -49,7 +48,7 @@ public partial class EditarConjuntoPage : ContentPage
         try
         {
             await _api.EditarConjunto(_conjuntoAtual.Id, conjuntoEditado);
-            await DisplayAlert("Sucesso", "Grupo atualziado com sucesso!", "Ok");
+            await DisplayAlert("Sucesso", "Grupo atualizado com sucesso!", "Ok");
             await Shell.Current.GoToAsync("///ConjuntoPage");
         }
         catch (Exception ex)
