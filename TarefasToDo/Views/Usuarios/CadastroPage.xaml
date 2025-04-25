@@ -29,8 +29,9 @@
             x:Name="TelefoneEntry"
             PlaceholderText="Digite seu telefone"
             IconSource="tel.png"
-            Keyboard="Telephone"
-            Text="{Binding Telefone, Source={x:Reference This}}"/>
+            Keyboard="Numeric"
+            Text="{Binding Telefone, Source={x:Reference This}}"
+            TextChanged="TelefoneEntry_TextChanged"/>
         <controls:EntryEstilo 
             x:Name="SenhaEntry"
             PlaceholderText="Digite sua senha"
