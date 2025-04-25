@@ -65,7 +65,7 @@ public partial class TarefasPage : ContentPage
                 TarefaCollectionView.ItemsSource = Tarefas;
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             await DisplayAlert("Erro", "Falha ao carregar tarefas", "Ok");
         }
