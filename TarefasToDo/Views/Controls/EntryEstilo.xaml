@@ -16,6 +16,7 @@
                 Text="{Binding Text, Mode=TwoWay, Source={x:Reference This}}"
                 Placeholder="{Binding PlaceholderText, Source={x:Reference This}}"
                 Keyboard="{Binding Keyboard, Source={x:Reference This}}"
+                TextChanged="Entry_TextChanged"
                 BackgroundColor="Transparent"
                 TextColor="Black"
                 PlaceholderColor="#aaa"

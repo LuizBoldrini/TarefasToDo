@@ -38,9 +38,16 @@ namespace TarefasToDo.Views.Controls
             set => SetValue(TextProperty, value);
         }
 
+        public event EventHandler<TextChangedEventArgs> TextChanged = delegate { };
+
         public EntryEstilo()
         {
             InitializeComponent();
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged?.Invoke(this, e);
         }
     }
 }
