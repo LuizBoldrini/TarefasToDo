@@ -85,39 +85,37 @@ public partial class TarefasPage : ContentPage
 
     private async void MostraOpcoes_Clicked(object sender, EventArgs e)
     {
-        var button = sender as Button;
-        var tarefasSelecionado = button?.BindingContext as TarefaLista;
+        if (sender is Button button && button.BindingContext is TarefaLista tarefasSelecionado)
+        {
+            string opcao = await DisplayActionSheet("Opções", "Cancelar", null, "Editar", "Excluir");
 
-        if(tarefasSelecionado == null)
+            switch (opcao)
+            {
+                case "Editar":
+                    AppState.TarefaSelecionada = tarefasSelecionado;
+                    await Shell.Current.GoToAsync("///EditarTarefaPage");
+                    break;
+                case "Excluir":
+                    bool confirmar = await DisplayAlert("Aviso", "Deseja realmente excluir?", "Sim", "Cancelar");
+                    if (confirmar)
+                    {
+                        bool sucesso = await _api.DeletarTarefa(tarefasSelecionado.Id);
+                        if (sucesso)
+                        {
+                            Tarefas.Remove(tarefasSelecionado);
+                            await DisplayAlert("Sucesso", "Tarefa excluída com sucesso!", "Ok");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Erro", "Falha ao excluir tarefa", "Ok");
+                        }
+                    }
+                    break;
+            }
+        }
+        else
         {
             await DisplayAlert("Erro", "Tarefa não encontrada", "Ok");
-            return;
-        }
-
-        string opcao = await DisplayActionSheet("Opções", "Cancelar", null, "Editar", "Excluir");
-
-        switch (opcao)
-        {
-            case "Editar":
-                AppState.TarefaSelecionada = tarefasSelecionado;
-                await Shell.Current.GoToAsync("///EditarTarefaPage");
-                break;
-            case "Excluir":
-                bool confirmar = await DisplayAlert("Aviso", "Deseja realmente excluir?", "Sim", "Cancelar");
-                if (confirmar)
-                {
-                    bool sucesso = await _api.DeletarTarefa(tarefasSelecionado.Id);
-                    if (sucesso)
-                    {
-                        Tarefas.Remove(tarefasSelecionado);
-                        await DisplayAlert("Sucesso", "Tarefa excluída com sucesso!", "Ok");
-                    }
-                    else
-                    {
-                        await DisplayAlert("Erro", "Falha ao excluir tarefa", "Ok");
-                    }
-                }
-                break;
         }
     }
 
@@ -144,20 +142,10 @@ public partial class TarefasPage : ContentPage
                 var tarefaAtualizada = await _api.AlterarStatusTarefa(tarefa.Id, payload);
 
                 var tarefaExistente = Tarefas.FirstOrDefault(t => t.Id == tarefa.Id);
-                if(tarefaExistente != null)
+                if (tarefaExistente != null)
                 {
                     tarefaExistente.Status = tarefaAtualizada.Status;
-                }
-
-                var tarefasOrdenadas = Tarefas
-                    .OrderBy(t => ObterPrioridade(t.Status))
-                    .ThenBy(t => t.Nome)
-                    .ToList();
-
-                Tarefas.Clear();
-                foreach (var t in tarefasOrdenadas)
-                {
-                    Tarefas.Add(t);
+                    ReordenarTarefas();
                 }
 
             }
@@ -168,7 +156,21 @@ public partial class TarefasPage : ContentPage
         }
     }
 
-    private int ObterPrioridade(string status)
+    private void ReordenarTarefas()
+    {
+        var tarefasOrdenadas = Tarefas
+            .OrderBy(t => ObterPrioridade(t.Status))
+            .ThenBy(t => t.Nome)
+            .ToList();
+
+        Tarefas.Clear();
+        foreach (var tarefa in tarefasOrdenadas)
+        {
+            Tarefas.Add(tarefa);
+        }
+    }
+
+    private static int ObterPrioridade(string status)
     {
         return status switch
         {
