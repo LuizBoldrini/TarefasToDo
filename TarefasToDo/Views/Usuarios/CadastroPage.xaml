@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
+             xmlns:usuarios="clr-namespace:TarefasToDo.Models.Usuarios"
              x:Class="TarefasToDo.Views.Usuarios.CadastroPage"
+             x:DataType="usuarios:UsuarioCadastro"
              Title="Cadastro de usuário">
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label 
@@ -18,26 +20,26 @@
             PlaceholderText="Digite seu nome"
             IconSource="user.png"
             Keyboard="Default"
-            Text="{Binding Nome, Source={x:Reference This}}"/>
+            Text="{Binding Nome}"/>
         <controls:EntryEstilo
             x:Name="EmailEntry"
             PlaceholderText="Digite seu email"
             IconSource="email.png"
             Keyboard="Email"
-            Text="{Binding Email, Source={x:Reference This}}"/>
+            Text="{Binding Email}"/>
         <controls:EntryEstilo
             x:Name="TelefoneEntry"
             PlaceholderText="Digite seu telefone"
             IconSource="tel.png"
             Keyboard="Numeric"
-            Text="{Binding Telefone, Source={x:Reference This}}"
+            Text="{Binding Telefone}"
             TextChanged="TelefoneEntry_TextChanged"/>
         <controls:EntryEstilo 
             x:Name="SenhaEntry"
             PlaceholderText="Digite sua senha"
             IconSource="senha.png"
             Keyboard="Password"
-            Text="{Binding Senha, Source={x:Reference This}}"/>
+            Text="{Binding Senha}"/>
 
         <VerticalStackLayout Spacing="2">
             <Button 

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
-            x:Class="TarefasToDo.Views.Usuarios.LoginPage">  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
+             xmlns:usuarios="clr-namespace:TarefasToDo.Models.Usuarios"
+             x:DataType="usuarios:UsuarioLogin"
+             x:Class="TarefasToDo.Views.Usuarios.LoginPage">  
    <VerticalStackLayout Padding="20" Spacing="15">
         <Image   
            Source="logo.png"  
@@ -14,14 +16,14 @@
            PlaceholderText="Digite seu email"  
            IconSource="email.png"  
            Keyboard="Email"  
-           Text="{Binding Email, Source={x:Reference This}}"/>
+           Text="{Binding Email}"/>
 
         <controls:EntryEstilo 
             x:Name="SenhaEntry"
             PlaceholderText="Digite sua senha"
             IconSource="senha.png"
             Keyboard="Password"
-            Text="{Binding Senha, Source={x:Reference This}}"/>
+            Text="{Binding Senha}"/>
  
        <Button x:Name="LoginButton"  
                Text="Login"  
