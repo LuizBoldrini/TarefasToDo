@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:TarefasToDo.Views.Controls"
+             xmlns:tarefas="clr-namespace:TarefasToDo.Models.Tarefas"
              x:Class="TarefasToDo.Views.Tarefas.EditarTarefaPage"
+             x:DataType="tarefas:TarefaCadastro"
              Title="EditarTarefaPage">
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label
@@ -18,13 +20,13 @@
             PlaceholderText="Digite o nome da tarefa"
             IconSource="tarefa.png"
             Keyboard="Default"
-            Text="{Binding Nome, Source={x:Reference This}}"/>
+            Text="{Binding Nome}"/>
         <controls:EntryEstilo
             x:Name="DescricaoEntry"
             PlaceholderText="Digite a descrição da tarefa"
             IconSource="descricao.png"
             Keyboard="Default"
-            Text="{Binding Descricao, Source={x:Reference This}}"
+            Text="{Binding Descricao}"
             HeightRequest="100"/>
 
         <VerticalStackLayout Spacing="2">
