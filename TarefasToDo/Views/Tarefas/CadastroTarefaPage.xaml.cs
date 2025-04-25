@@ -54,7 +54,6 @@ public partial class CadastroTarefaPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao cadastrar tarefa: {ex.Message}");
             await DisplayAlert("Erro", ex.Message, "Ok");
         }
     }

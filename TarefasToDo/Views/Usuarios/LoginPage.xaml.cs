@@ -53,7 +53,6 @@ public partial class LoginPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro no login:{ex.Message}");
             await DisplayAlert("Aviso", ex.Message, "OK");
         }
     }

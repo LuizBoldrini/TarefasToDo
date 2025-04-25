@@ -67,7 +67,6 @@ public partial class TarefasPage : ContentPage
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao carregar tarefas: {ex.Message}");
             await DisplayAlert("Erro", "Falha ao carregar tarefas", "Ok");
         }
     }
